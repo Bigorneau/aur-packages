@@ -1,6 +1,6 @@
 # Maintainer: Patrice Blin <dev@patriceblin.com>
 pkgname=ed-209
-pkgver=r321.7300cd0
+pkgver=20160913.b21c6b7
 pkgrel=1
 pkgdesc="nodejs IRC bot"
 arch=('any')
@@ -16,14 +16,14 @@ backup=()
 options=()
 install=
 _source="https://github.com/putaindebot/ed-209.git"
-source=("ed-209::git+${_source}")
+source=("${pkgname}::git+${_source}#branch=2016")
 noextract=()
 md5sums=('SKIP')
 
 pkgver() {
 	cd "$srcdir/${pkgname%-git}"
 # Git, no tags available
-	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+	printf "%s.%s" "$(git show --no-patch --format=%ad --date=format:'%Y%m%d' HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 prepare() {
