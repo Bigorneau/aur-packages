@@ -1,0 +1,40 @@
+# Maintainer: Patrice Blin <dev@patriceblin.com>
+pkgname=ed-209
+pkgver=r321.7300cd0
+pkgrel=1
+pkgdesc="nodejs IRC bot"
+arch=('any')
+url="https://github.com/putaindebot/ed-209"
+license=('GPL')
+groups=()
+depends=()
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+replaces=()
+backup=()
+options=()
+install=
+_source="https://github.com/putaindebot/ed-209.git"
+source=("ed-209::git+${_source}")
+noextract=()
+md5sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+# Git, no tags available
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+	cd "$srcdir/${pkgname%-git}"
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	npm install
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+}
