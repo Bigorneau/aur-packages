@@ -1,6 +1,6 @@
 # Maintainer: Patrice Blin <dev@patriceblin.com>
 pkgname=ed-209
-pkgver=20170119.0c6e227
+pkgver=20170226.d0c413f
 pkgrel=1
 pkgdesc="nodejs IRC bot"
 arch=('any')
@@ -39,7 +39,6 @@ build() {
     cd "${srcdir}/${pkgname%-git}"
     npm install
     npm install twitter # twitter
-    npm install imgur # imgur
     npm install node-fetch cheerio # url
 }
 
