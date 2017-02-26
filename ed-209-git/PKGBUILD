@@ -1,6 +1,6 @@
 # Maintainer: Patrice Blin <dev@patriceblin.com>
 pkgname=ed-209
-pkgver=20160913.b21c6b7
+pkgver=20170119.0c6e227
 pkgrel=1
 pkgdesc="nodejs IRC bot"
 arch=('any')
@@ -12,29 +12,38 @@ makedepends=('git')
 provides=("${pkgname%-git}")
 conflicts=("${pkgname%-git}")
 replaces=()
-backup=()
+backup=("opt/${pkgname}/config.json"
+        "opt/${pkgname}/memory.json")
 options=()
-install=
-_source="https://github.com/putaindebot/ed-209.git"
-source=("${pkgname}::git+${_source}#branch=2016")
+source=("${pkgname}::git+${url}.git#branch=2016"
+        "${pkgname}.service"
+        "${pkgname}.sysusers")
 noextract=()
-md5sums=('SKIP')
+sha256sums=('SKIP'
+            'cf017ec2fc6c73c1a4b271b3da934af35c405fefdf36a4aa83c4418d05d00f6a'
+            'efdf74acc4230e83144a5f92909dff0e0e9cc6868e4ab18170db377e427cf1bd')
 
 pkgver() {
-	cd "$srcdir/${pkgname%-git}"
-# Git, no tags available
-	printf "%s.%s" "$(git show --no-patch --format=%ad --date=format:'%Y%m%d' HEAD)" "$(git rev-parse --short HEAD)"
+    cd "$srcdir/${pkgname%-git}"
+    # Git, no tags available
+    printf "%s.%s" "$(git show --no-patch --format=%ad --date=format:'%Y%m%d' HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 prepare() {
-	cd "$srcdir/${pkgname%-git}"
+    cd "$srcdir/${pkgname%-git}"
 }
 
 build() {
-	cd "$srcdir/${pkgname%-git}"
-	npm install
+    cd "$srcdir/${pkgname%-git}"
+    npm install
+    npm install twitter # twitter
+    npm install imgur # imgur
+    npm install node-fetch cheerio # url
 }
 
 package() {
-	cd "$srcdir/${pkgname%-git}"
+    install -dm 755 "${pkgdir}"/{opt/${pkgname},usr/lib/{sysusers.d,systemd/system}}
+    cp -dRT --no-preserve=ownership "${srcdir}/${pkgname%-git}" "${pkgdir}/opt/${pkgname}/"
+    install -m 644 ${pkgname}.service "${pkgdir}/usr/lib/systemd/system/"
+    install -m 644 ${pkgname}.sysusers "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
 }
