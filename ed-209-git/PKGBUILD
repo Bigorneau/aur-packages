@@ -24,17 +24,19 @@ sha256sums=('SKIP'
             'efdf74acc4230e83144a5f92909dff0e0e9cc6868e4ab18170db377e427cf1bd')
 
 pkgver() {
-    cd "$srcdir/${pkgname%-git}"
+    cd "${srcdir}/${pkgname%-git}"
     # Git, no tags available
     printf "%s.%s" "$(git show --no-patch --format=%ad --date=format:'%Y%m%d' HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 prepare() {
-    cd "$srcdir/${pkgname%-git}"
+    cd "${srcdir}/${pkgname%-git}"
+    touch "${srcdir}/${pkgname%-git}/memory.json"
+    cp "${srcdir}/${pkgname%-git}/config.example.json" "${srcdir}/${pkgname%-git}/config.json"
 }
 
 build() {
-    cd "$srcdir/${pkgname%-git}"
+    cd "${srcdir}/${pkgname%-git}"
     npm install
     npm install twitter # twitter
     npm install imgur # imgur
