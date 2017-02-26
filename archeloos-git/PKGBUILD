@@ -1,0 +1,45 @@
+# Maintainer: Patrice Blin <dev@patriceblin.com>
+pkgname=archeloos
+pkgver=20170226.9506e64
+pkgrel=1
+pkgdesc="RSS torrent reader"
+arch=('any')
+url="https://github.com/WeaselSoup/archeloos"
+license=('GPL')
+groups=()
+depends=()
+makedepends=('git')
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+replaces=()
+backup=("opt/${pkgname}/archeloos.conf")
+options=()
+source=("${pkgname}::git+${url}.git"
+        "${pkgname}.service"
+        "${pkgname}.sysusers")
+noextract=()
+sha256sums=('SKIP'
+            'fd6e651ef280374623b280c1559d8a4f306764e0dfcd949916d7883da36dbbb4'
+            'a242110a68ea877ce0f8d0ad4db7696daa102d39472ecfb228370967a5063134')
+
+pkgver() {
+    cd "${srcdir}/${pkgname%-git}"
+    # Git, no tags available
+    printf "%s.%s" "$(git show --no-patch --format=%ad --date=format:'%Y%m%d' HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+    cd "${srcdir}/${pkgname%-git}"
+    cp "${srcdir}/${pkgname%-git}/archeloos.conf.sample" "${srcdir}/${pkgname%-git}/archeloos.conf"
+}
+
+build() {
+    cd "${srcdir}/${pkgname%-git}"
+}
+
+package() {
+    install -dm 755 "${pkgdir}"/{opt/${pkgname},usr/lib/{sysusers.d,systemd/system}}
+    cp -dRT --no-preserve=ownership "${srcdir}/${pkgname%-git}" "${pkgdir}/opt/${pkgname}/"
+    install -m 644 ${pkgname}.service "${pkgdir}/usr/lib/systemd/system/"
+    install -m 644 ${pkgname}.sysusers "${pkgdir}/usr/lib/sysusers.d/${pkgname}.conf"
+}

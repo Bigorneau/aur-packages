@@ -1,0 +1,14 @@
+[Unit]
+Description=archeloos
+Requires=After=network-online.target
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/archeloos/archeloos.py
+WorkingDirectory=/opt/archeloos
+Restart=always
+RestartSec=10
+User=archeloos
+Group=transmission
+
+[Install]
+WantedBy=multi-user.target
