@@ -15,7 +15,7 @@ replaces=()
 backup=("opt/${pkgname}/config.json"
         "opt/${pkgname}/memory.json")
 options=()
-source=("${pkgname}::git+${url}.git#branch=2016"
+source=("${pkgname}::git+${url}.git"
         "${pkgname}.service"
         "${pkgname}.sysusers")
 noextract=()
