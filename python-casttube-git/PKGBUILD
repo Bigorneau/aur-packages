@@ -1,0 +1,27 @@
+# Maintainer: ?
+
+pkgname=python-casttube-git
+pkgver=14.d71d368
+pkgrel=1
+pkgdesc="Provides a way to interact with the Youtube Chromecast api."
+arch=('any')
+url="https://github.com/ur1katz/casttube"
+license=('MIT')
+depends=('python' 'python-requests')
+makedepends=('python-setuptools')
+provides=('python-casttube')
+conflicts=('python-casttube')
+options=(!emptydirs)
+source=('git+https://github.com/ur1katz/casttube.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/casttube"
+  echo $(git rev-list --count master).$(git rev-parse --short master)
+}
+
+package() {
+  cd "$srcdir/casttube"
+  python setup.py install --root="$pkgdir/" --optimize=1
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
