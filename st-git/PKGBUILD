@@ -4,7 +4,7 @@
 
 pkgname=st-git
 _pkgname=st
-pkgver=0.7.38.g0ac685f
+pkgver=0.8.1.15.g30ec9a3
 pkgrel=1
 pkgdesc='Simple virtual terminal emulator for X'
 url='http://st.suckless.org/'
@@ -18,7 +18,7 @@ epoch=1
 source=('git://git.suckless.org/st'
         'config.h')
 sha1sums=('SKIP'
-          '202117bc14df4ba2a6a51e976795fbec4d3d7988')
+          'd3a4c11237b85f2303419f1e25dfea9a090f92e2')
 
 provides=("${_pkgname}")
 conflicts=("${_pkgname}")
